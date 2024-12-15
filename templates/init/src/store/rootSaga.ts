@@ -1,7 +1,11 @@
-import {all, call, spawn} from 'redux-saga/effects';
+import {all, AllEffect, call, ForkEffect, spawn} from 'redux-saga/effects';
 
-const sagas: GeneratorFunction[] = [
+type Saga =
+  | (() => Generator<ForkEffect<void>, void, unknown>)
+  | (() => Generator<AllEffect<ForkEffect<never>>, void, unknown>);
 
+const sagas: Saga[] = [
+  
 ];
 
 export function* rootSaga() {

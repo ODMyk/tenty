@@ -2,9 +2,11 @@ import {execSync} from "child_process";
 import fs from "fs";
 import path from "path";
 import {fileURLToPath} from "url";
+import {copyFolderRecursive} from "../utils/copyFolderRecursive.js";
+import chalk from "chalk";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+export const __filename = fileURLToPath(import.meta.url);
+export const __dirname = path.dirname(__filename);
 
 const libraries = [
   "lodash@4.17.21",
@@ -44,33 +46,7 @@ const devLibraries = [
   "husky@9.1.5",
 ];
 
-const copyFolderRecursive = (source, destination) => {
-  if (!fs.existsSync(source)) {
-    throw new Error(`Source folder does not exist: ${source}`);
-  }
-
-  if (!fs.existsSync(destination)) {
-    fs.mkdirSync(destination, {recursive: true});
-  }
-
-  const items = fs.readdirSync(source);
-
-  items.forEach((item) => {
-    const sourcePath = path.join(source, item);
-    const destinationPath = path.join(destination, item);
-
-    const stat = fs.statSync(sourcePath);
-
-    if (stat.isDirectory()) {
-      copyFolderRecursive(sourcePath, destinationPath);
-    } else {
-      fs.copyFileSync(sourcePath, destinationPath);
-    }
-  });
-};
-
 export async function init(projectName) {
-  console.log(`Creating React Native project: ${projectName}`);
   try {
     execSync(`npx @react-native-community/cli init ${projectName}`, {
       stdio: "inherit",
@@ -79,12 +55,12 @@ export async function init(projectName) {
     const projectPath = path.join(process.cwd(), projectName);
     process.chdir(projectPath);
 
-    console.log("Installing additional libraries...");
+    console.log(chalk.yellow("Installing additional libraries..."));
 
     execSync(`yarn add ${libraries.join(" ")}`, {stdio: "inherit"});
     execSync(`yarn add -D ${devLibraries.join(" ")}`, {stdio: "inherit"});
 
-    console.log("Generating structure...");
+    console.log(chalk.yellow("Generating structure..."));
 
     const oldAppTsxPath = path.join(projectPath, "App.tsx");
     const brokenTestPath = path.join(projectPath, "__tests__", "App.test.tsx");
@@ -94,12 +70,19 @@ export async function init(projectName) {
     const templatePath = path.join(__dirname, "..", "templates", "init");
     copyFolderRecursive(templatePath, projectPath);
 
-    console.log("Cleaning up...");
+    const gitignorePath = path.join(projectPath, ".gitignoree");
+    fs.renameSync(
+      gitignorePath,
+      gitignorePath.slice(0, gitignorePath.length - 1),
+    );
 
-    execSync("yarn lint --fix", {stdio: "inherit"});
+    console.log(chalk.yellow("Cleaning up..."));
 
-    console.log("Project setup complete!");
+    execSync("yarn lint --fix");
+
+    console.log(chalk.green("Done!"));
   } catch (error) {
     console.error("Error during project creation:", error.message);
+    process.exit(1);
   }
 }
