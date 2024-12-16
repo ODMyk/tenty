@@ -24,16 +24,10 @@ export function generateReducer(module) {
     console.error("This module alredy has a reducer or selectors!");
     process.exit(1);
   }
-  execSync("mkdir reducer");
-  execSync("mkdir selectors");
 
   copyFolderRecursive(
-    path.join(__dirname, "..", "templates", "module", "reducer"),
-    path.join(process.cwd(), "reducer"),
-  );
-  copyFolderRecursive(
-    path.join(__dirname, "..", "templates", "module", "selectors"),
-    path.join(process.cwd(), "selectors"),
+    path.join(__dirname, "..", "templates", "reducer"),
+    process.cwd(),
   );
 
   [
@@ -45,6 +39,7 @@ export function generateReducer(module) {
       replaceInFile(f, "TEMPLATEL", nameCamelCase);
       replaceInFile(f, "TEMPLATEC", nameCapitalized);
     });
+
   process.chdir(path.join(process.cwd(), "..", ".."));
   registerReducer(nameCapitalized, nameCamelCase);
 
