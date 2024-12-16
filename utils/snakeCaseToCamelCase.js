@@ -5,7 +5,7 @@ export function snakeCaseToCamelCase(s) {
     .split("_")
     .reduce(
       (prev, cur, ind) =>
-        prev + ind === 0 ? cur.toLocaleLowerCase() : capitalize(cur),
+        prev + (ind === 0 ? cur.toLocaleLowerCase() : capitalize(cur)),
       "",
     );
 }
