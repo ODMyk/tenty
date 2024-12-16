@@ -2,7 +2,7 @@ import {execSync} from "child_process";
 import {findProjectRoot} from "../utils/findProjectRoot.js";
 import path from "path";
 import {copyFolderRecursive} from "../utils/copyFolderRecursive.js";
-import {__dirname} from "./init.js";
+import {__dirname} from "../utils/fs.js";
 import fs from "fs";
 import {capitalize} from "../utils/capitalize.js";
 import {replaceInFile} from "../utils/replaceInFile.js";
@@ -10,6 +10,7 @@ import {registerReducer} from "../utils/registerReducer.js";
 import {registerSaga} from "../utils/registerSaga.js";
 import {snakeCaseToCamelCase} from "../utils/snakeCaseToCamelCase.js";
 import chalk from "chalk";
+import {formatFiles} from "../utils/formatFiles.js";
 
 export function generateModule(name, options) {
   try {
@@ -65,6 +66,6 @@ export function generateModule(name, options) {
   }
   registerSaga(nameCapitalized);
 
-  execSync("yarn lint --fix");
+  formatFiles();
   console.log(chalk.green("Done!"));
 }

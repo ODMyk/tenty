@@ -1,12 +1,10 @@
 import {execSync} from "child_process";
 import fs from "fs";
 import path from "path";
-import {fileURLToPath} from "url";
 import {copyFolderRecursive} from "../utils/copyFolderRecursive.js";
 import chalk from "chalk";
-
-export const __filename = fileURLToPath(import.meta.url);
-export const __dirname = path.dirname(__filename);
+import {formatFiles} from "../utils/formatFiles.js";
+import {__dirname} from "../utils/fs.js";
 
 const libraries = [
   "lodash@4.17.21",
@@ -71,6 +69,7 @@ export async function init(projectName) {
     copyFolderRecursive(templatePath, projectPath);
 
     const gitignorePath = path.join(projectPath, ".gitignoree");
+    execSync("echo '' > .tenty");
     fs.renameSync(
       gitignorePath,
       gitignorePath.slice(0, gitignorePath.length - 1),
@@ -78,7 +77,8 @@ export async function init(projectName) {
 
     console.log(chalk.yellow("Cleaning up..."));
 
-    execSync("yarn lint --fix");
+    process.chdir(path.join(projectPath, "src"));
+    formatFiles();
 
     console.log(chalk.green("Done!"));
   } catch (error) {
