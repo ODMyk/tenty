@@ -13,7 +13,10 @@ export function registerReducer(nameCapitalized, nameLowercase) {
       }
       ++i;
     }
-    lines[i] = `${lines[i]}\n  ${nameLowercase}: ${nameLowercase}Reducer,`;
+    lines[i] = lines[i].replace(
+      `export const rootReducer = combineReducers({`,
+      `export const rootReducer = combineReducers({${nameLowercase}: ${nameLowercase}Reducer,`,
+    );
     lines.unshift(
       `import {${nameLowercase}Reducer} from './modules/${nameCapitalized}/reducer';`,
     );
