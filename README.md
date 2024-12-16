@@ -2,17 +2,13 @@
 
 ## Overview
 
-Tenty is a private command-line interface (CLI) tool designed to streamline project development by providing easy-to-use commands for generating modules, sagas, reducers, and actions.
+Tenty is a command-line interface (CLI) tool designed to streamline project development by providing easy-to-use commands for generating modules, sagas, reducers, and actions.
 
-## Access
-
-**Important:** This is a private package with restricted access. Only authorized team members can use and contribute to this tool.
-
-### Installation
+## Installation
 
 ```bash
-# Install the CLI tool (only for authorized users)
-npm install @your-org/tenty
+# Install the CLI tool globally
+npm install -g tenty
 ```
 
 ## Usage
@@ -107,14 +103,8 @@ tenty help generate
 
 ## Contributing
 
-Contributions are welcome **only for authorized team members** with access to this private package. If you believe you should have access:
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-- Contact the project maintainer
-- Request access to the repository
-- Follow the team's established contribution guidelines
+## License
 
-## Current Status
-
-This is an internal tool and is not intended for public release in the near future.
-
-**Confidentiality Notice:** This package and its contents are proprietary and intended for authorized use only.
+MIT License
