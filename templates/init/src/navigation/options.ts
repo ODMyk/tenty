@@ -1,8 +1,9 @@
 import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
+import {isIOS} from '@services/platform';
 
 export const screenOptions = {
   headerShown: false,
-  animation: 'simple_push',
+  animation: isIOS ? 'simple_push' : 'slide_from_right',
 } as NativeStackNavigationOptions;
 
 export const screenWithGoBack = {

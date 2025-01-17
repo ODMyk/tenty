@@ -1,4 +1,4 @@
-yarn unlink tenty;
+yarn unlink @odmyk/tenty;
 yarn unlink;
 yarn link;
-yarn link tenty
+yarn link @odmyk/tenty

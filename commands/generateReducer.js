@@ -43,6 +43,9 @@ export function generateReducer(module) {
   process.chdir(path.join(process.cwd(), "..", ".."));
   registerReducer(nameCapitalized, nameCamelCase);
 
-  formatFiles();
+  formatFiles([
+    "rootReducer.ts",
+    path.join(process.cwd(), "modules", nameCapitalized, "reducer", "index.ts"),
+  ]);
   console.log(chalk.green("Done!"));
 }

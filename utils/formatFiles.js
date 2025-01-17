@@ -1,8 +1,8 @@
 import {execSync} from "child_process";
 
-export function formatFiles() {
-  execSync("yarn lint --fix");
-  execSync("npx prettier --write ./**/*.{js,ts,jsx,tsx} || true", {
+export function formatFiles(files) {
+  execSync(`npx eslint --fix ${files?.join(" ") ?? "."}`);
+  execSync(`npx prettier --write ${files?.join(" ") ?? "."}`, {
     stdio: "ignore",
   });
 }

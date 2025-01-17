@@ -21,18 +21,18 @@ const libraries = [
   "@react-navigation/native@6.1.17",
   "@react-navigation/native-stack@6.9.26",
   "react-native-screens@4.3.0",
-  "react-native-safe-area-context@4.10.1",
+  "react-native-safe-area-context@4.14.0",
   "redux@5.0.1",
   "react-redux@9.1.2",
   "@reduxjs/toolkit@2.2.5",
   "redux-persist@6.0.0",
   "redux-saga@1.3.0",
   "yup@1.4.0",
-  "react-native-reanimated@3.11.0",
-  "react-native-svg@15.3.0",
+  "react-native-reanimated@3.16.7",
+  "react-native-svg@15.11.1",
   "axios@1.7.2",
   "react-native-device-info@14.0.1",
-  "react-native-gesture-handler@2.16.2",
+  "react-native-gesture-handler@2.21.0",
   "react-native-skeleton-placeholder@5.2.4",
 ];
 
@@ -46,9 +46,12 @@ const devLibraries = [
 
 export async function init(projectName) {
   try {
-    execSync(`npx @react-native-community/cli init ${projectName}`, {
-      stdio: "inherit",
-    });
+    execSync(
+      `npx @react-native-community/cli init ${projectName} --version 0.76.5`,
+      {
+        stdio: "inherit",
+      },
+    );
 
     const projectPath = path.join(process.cwd(), projectName);
     process.chdir(projectPath);

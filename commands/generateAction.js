@@ -35,6 +35,8 @@ export function generateAction(
     generateSaga(module, name, actionName, null, null, true);
   }
 
-  formatFiles();
+  process.chdir(path.join(process.cwd(), ".."));
+
+  formatFiles([path.join(process.cwd(), "actions", "index.ts")]);
   !isSubCall && console.log(chalk.green("Done!"));
 }

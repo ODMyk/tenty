@@ -1,6 +1,9 @@
+import {createSelector} from '@reduxjs/toolkit';
 import {ActionData} from '@store/modules/UtilityProcessStatuses/reducer';
 import {RootState} from '@store/rootReducer';
 import lodashGet from 'lodash/get';
+import {useMemo} from 'react';
+import {useSelector} from 'react-redux';
 
 interface Action {
   id?: string | number;
@@ -9,6 +12,35 @@ interface Action {
 
 const processStatusesRootSelector = (state: RootState) =>
   state.utilityProcessStatuses;
+
+// Selector factory that takes action as a parameter
+export const createActionStateSelector = (action: Action) =>
+  createSelector(
+    (state: RootState) => processStatusForActionSelector(state, action),
+    requestData => {
+      if (!requestData) {
+        return undefined;
+      }
+
+      const status = lodashGet(requestData, 'status');
+      const errorMessage =
+        status === 'FAILED'
+          ? lodashGet(requestData?.payload, 'errorMessage')
+          : undefined;
+
+      return {
+        loading: status === 'START',
+        success: status === 'SUCCESS',
+        failed: status === 'FAILED',
+        errorMessage,
+      };
+    },
+  );
+
+export const useActionState = (action: Action) => {
+  const selector = useMemo(() => createActionStateSelector(action), [action]);
+  return useSelector((state: RootState) => selector(state));
+};
 
 export const processStatusForActionSelector = (
   state: RootState,

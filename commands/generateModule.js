@@ -63,9 +63,13 @@ export function generateModule(name, options) {
   process.chdir(path.join(process.cwd(), "..", ".."));
   if (!options.short) {
     registerReducer(nameCapitalized, nameCamelCase);
+    formatFiles(["rootReducer.ts"]);
   }
   registerSaga(nameCapitalized);
 
-  formatFiles();
+  formatFiles([
+    path.join(process.cwd(), "modules", nameCapitalized),
+    "rootSaga.ts",
+  ]);
   console.log(chalk.green("Done!"));
 }

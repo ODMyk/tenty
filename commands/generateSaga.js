@@ -48,6 +48,7 @@ export function generateSaga(
 
   addSaga(module, action, name);
 
-  formatFiles();
+  process.chdir(path.join(process.cwd(), "sagas"));
+  formatFiles(["index.ts", `${sagaName}Saga.ts`]);
   !isSubCall && console.log(chalk.green("Done!"));
 }
